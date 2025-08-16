@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mapa de Regas — Water Grid</title>
+  <meta name="theme-color" content="#0f766e" />
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>Mapa de Regas</h1>
+    <div class="actions">
+      <button id="btn-config" title="Configurações">⚙️</button>
+      <button id="btn-export" title="Exportar dados">⬇️</button>
+      <label class="import-label" title="Importar dados (JSON)">
+        ⬆️ <input id="file-import" type="file" accept="application/json" hidden>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div class="controls">
+        <button id="btn-reset-all">Resetar TODOS</button>
+        <button id="btn-show-needs">Mostrar só quem precisa de água</button>
+        <button id="btn-show-all" class="quiet">Mostrar todos</button>
+      </div>
+
+      <div id="map-wrapper">
+        <!-- Mantém razão 2:1 para quadrados perfeitos no grid 10x5 -->
+        <div id="map" class="aspect-2-1">
+          <img id="bg-image" alt="Imagem do terreno" />
+          <div id="grid"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal de Configurações -->
+  <dialog id="config-modal">
+    <form method="dialog" id="config-form">
+      <h2>Configurações</h2>
+      <fieldset>
+        <legend>Geral</legend>
+        <div class="row">
+          <label>Linhas</label>
+          <input type="number" id="rows" min="1" max="50" value="5">
+        </div>
+        <div class="row">
+          <label>Colunas</label>
+          <input type="number" id="cols" min="1" max="50" value="10">
+        </div>
+        <div class="row">
+          <label>Cooldown padrão (horas)</label>
+          <input type="number" id="defaultCooldown" min="1" max="720" value="24">
+        </div>
+        <div class="row">
+          <label>Imagem do terreno</label>
+          <input type="file" id="bg-upload" accept="image/*">
+        </div>
+        <div class="row">
+          <label>Salvar imagem no app?</label>
+          <input type="checkbox" id="persist-image" checked>
+        </div>
+        <p class="hint">Dica: use uma imagem com proporção 2:1 para os quadrados ficarem perfeitos no grid 10×5.</p>
+        <div class="row">
+          <button type="button" id="btn-apply-grid">Aplicar linhas/colunas</button>
+          <button type="button" id="btn-apply-default">Aplicar cooldown padrão a todos</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Área selecionada</legend>
+        <div class="row">
+          <label>Nome</label>
+          <input type="text" id="cell-name" placeholder="Ex: Lote 3">
+        </div>
+        <div class="row">
+          <label>Cooldown (horas)</label>
+          <input type="number" id="cell-cooldown" min="1" max="720">
+        </div>
+        <div class="row">
+          <button type="button" id="btn-save-cell">Salvar área</button>
+          <button type="button" id="btn-reset-cell">Resetar agora</button>
+        </div>
+      </fieldset>
+
+      <menu>
+        <button value="cancel">Fechar</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <footer class="foot">
+    <small>Funciona offline. Toque curto = marcar rega agora. Toque longo = editar área.</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
